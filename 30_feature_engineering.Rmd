@@ -99,7 +99,7 @@ Let's create a function for this:
 mean_norm <- function(x){
   
 }
-
+# Use mutate_at for the function so that the new columns will have _mean_norm at end.
 normalize_columns <- function(df, vars) { 
   
 }
@@ -135,7 +135,8 @@ Checking the boundati0ons on new dataset:
 ```{r Checking new dataset}
 Clean_norm_BreastCancer %>%
   assert(in_set(1,2),Diagnosis)%>%
-  assert(in_set(-3,3),Cl.thickness_mean_norm)
+  assert(within_bounds(-3,3),Cl.thickness_mean_norm)%>%
+  verify(not_na(Cell.shape_mean_norm))
   
 ```
 
