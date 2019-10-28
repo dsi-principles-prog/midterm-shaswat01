@@ -5,7 +5,10 @@ The idea is to perform an exploratory analysis of the information contained in t
 Source: https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)
 </p>
 <p>
-The Probelm with the dataset is that there are very less values in the 
+The Probelm with the dataset is that there are very less values after 2 in the mitoses column. (Mitoses column has values 1-10). It's better to have more values to traina model, so I did discreetization on that column, meaning that values 2 and after 2, I added them so that column has only 2 values, ie 1 and 2.<br>
+Other problem with this dataset is that there are NA values. Now either we can remove these NA values or we can impute them. Imputing means filling NA or missing values with mean, median or random values. I choose to impute those with random values as it gave me higher accuracy on modelling. I choose to impute values because there are already less rows and i don't want to train model on even more less rows. More that data, better the fitting of model will be. <br>
+Another problem is that for ML model it's btter to have the predicted column to be a integer than string. In this dataset we are predicting whether the type of cancer is Benign or Malignant. So the user have make change in this column to make a new column so that it shows 1 for benign and 2 for malignant.
+Last thing to do in this dataset is to normalise it so that machine learning model will be able to predict Diagnosis with more accuracy. Normalise change the values of numeric columns in the dataset to a common scale, without distorting differences in the ranges of values.
 </p>
 
 The following are orders in which the files should be run --- <br>
