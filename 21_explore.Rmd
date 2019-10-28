@@ -1,0 +1,28 @@
+---
+title: "20.1-Explore"
+output: html_notebook
+---
+
+# Explatory Data Analysis on Cleaned Dataset
+
+Let's explore the new cleaned dataset ----
+```{r Getting the Correlation matrix}
+corr_matrix <- cor(Clean_norm_BreastCancer[,2:10])
+
+```
+
+
+```{r PLotting the corrplot}
+corrplot(corr_matrix, method = "circle")
+```
+
+```{r plotting the corrplot with more details}
+ggcorrplot(corr_matrix,type="lower", method="circle", lab = TRUE, colors = c("red","white","green"))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 50, hjust = 1, vjust=1))+
+  labs(title = "Coorelation of Different Factors in Breast Cancer",x="",y="")+
+  scale_x_discrete(labels = abbreviate)
+```
+As we can see that our columns are highly correlated to each other except the Mitoses adjusted data. Let's explore the modelling to see if including the Mitoses_adjusted_discreet will increase or decrease the accuracy oif the models.

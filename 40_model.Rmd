@@ -1,0 +1,94 @@
+---
+title: "40-model"
+output: html_notebook
+---
+
+## Splitting the data for train and test:
+```{r Splitting the datset}
+set.seed(44)
+data_index <- createDataPartition(Clean_norm_BreastCancer$Diagnosis, p=0.7 , list=F)
+train <- Clean_norm_BreastCancer[data_index, 1:10]
+test <- Clean_norm_BreastCancer[-data_index,1:10]
+```
+
+
+# Kmeans Clustering : 
+
+Hypothesis:
+I want to check whether including the Mitoses_adjusted_discreet will increase or decrease the accuracy of the models.
+
+Let's apply the kmeans clustering algorithm to find out whether the data is clustered in benign or malignant with mitoses_adjusted_discreet.
+```{r Applying Kmeans with 2 clusters}
+set.seed(44)
+k2 <- kmeans(Clean_norm_BreastCancer[,c(2,10)], centers = 2, nstart = 25)
+
+#Print the results
+
+fviz_cluster(k2, data = Clean_norm_BreastCancer[,c(2,10)])
+```
+
+Checking the clusters:
+```{r Clusters whether 1 or 2}
+k2$cluster
+```
+
+Printing the Consfusion matrix to check the false positive, false negative, true positive and true negative.
+```{r Confusion Matrix}
+table(k2$cluster,Clean_norm_BreastCancer$Diagnosis)
+```
+
+Checking the accuracy:
+```{r Overall Accuracy}
+Overall_Accuracy <- (453+173)/(699)
+print(Overall_Accuracy)
+```
+So, we got overall accuracy of 89.5%.
+
+Let's apply the kmeans clustering algorithm to find out whether the data is clustered in benign or malignant without mitoses_adjusted_discreet.
+
+```{r Applying Kmeans}
+set.seed(44)
+k2 <- kmeans(Clean_norm_BreastCancer[,c(3,10)], centers = 2, nstart = 25)
+
+#Print the results
+
+fviz_cluster(k2, data = Clean_norm_BreastCancer[,c(3,10)])
+```
+
+Checking the clusters:
+```{r Clusters}
+k2$cluster
+```
+
+Printing the Consfusion matrix to check the false positive, false negative, true positive and true negative.
+```{r Confusion_Matrix}
+table(k2$cluster,Clean_norm_BreastCancer$Diagnosis)
+```
+
+Checking the accuracy:
+```{r Overall_Accuracy}
+Overall_Accuracy <- (449+202)/(699)
+print(Overall_Accuracy)
+```
+
+So, we got overall accuracy of 93.13%. So we can say that it's better to not include the mitoses_adjusted_discreet column. It makes sense because as we have seen in the corrplot it has the least correaltion with pther columns.
+
+Let's apply Random Forest to compare models to check which is better optimized for this dataset.
+
+## Random Forest : 
+```{r Applying Random Forest on the cleaned datset}
+model_rf <- train(Diagnosis ~., data = train, 
+                  method = "ranger")
+
+```
+
+Printing out the Confusion Matrix and Accuracy:
+```{r Accuracy and Confusion Matrix}
+pred_rf <- predict(model_rf,test)
+cm_rf <- confusionMatrix(pred_rf,test$Diagnosis,positive = '2')
+cm_rf
+```
+As we can see above that overall accuracy with Random Forest is 96.65%.<br>
+
+
+

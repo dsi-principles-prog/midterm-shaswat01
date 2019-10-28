@@ -1,0 +1,42 @@
+---
+title: "20-explore"
+output: html_notebook
+---
+
+
+## Exploratory Data Analysis:
+
+Let's find out how many Class values are in the dataset:
+```{r Count of Class}
+BreastCancer %>%
+  ggplot(aes(x = Class,)) + 
+  geom_bar(fill = "steelblue", color = "black")+ 
+  geom_text(stat = "Count", aes(label = ..count..), vjust = -0.4)+
+  labs(title = "Barplot of Breast_Cancer Dataset Class Column", x = "Class", y = "Count")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+We fid that there are 2 Class (Benign and Malignant cancer) and there are total of 458 benign cancer records and 241 malignant records.
+
+Let's find out about the outliers in the dataset on all parameters that are realted to cancer.
+```{r Finding outliers in all columns that can help in predicting Cancer}
+ggplot(stack(BreastCancer[,2:10]), aes(x = ind, y = values)) + 
+  geom_boxplot(na.rm=T) + 
+  labs(title = "Boxplots of Breast_Cancer Dataset Columns", x = "", y = "Values") + 
+  scale_y_continuous(breaks = seq(1, 10, by = 1))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 50, hjust = 1, vjust=1)) 
+```
+
+We can infer from the above graph that several columns have outliers, with <b> Mitoses</b> having the most outliers. We can do feature engineering to remove those outliers.<br>
+There are many ways to get rid of those outliers like--
+<li> Capping </li>
+<li> Windsorisation </li>
+<li> Equal length discretisation </li> 
+
+
+
+
+
+
