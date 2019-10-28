@@ -119,7 +119,7 @@ Let's check the new column to be in bound -3 and 3. (Do it on only one column.)
 
 Let's get the datset with the columns required for ML algorithm:
 ```{r Getting the required column and saving those in new variable}
-BreastCancer <- BreastCancer %>%
+Clean_norm_BreastCancer  <- BreastCancer %>%
   select(Diagnosis,Mitoses_adjusted_discreet,Cl.thickness_mean_norm:Cell.size_mean_norm)
 ```
 
@@ -131,7 +131,13 @@ write.csv(Clean_norm_BreastCancer, file = "data/Clean_norm_BreastCancer.csv")
 ```
 
 
-
+Checking the boundati0ons on new dataset:
+```{r Checking new dataset}
+Clean_norm_BreastCancer %>%
+  assert(in_set(1,2),Diagnosis)%>%
+  assert(in_set(-3,3),Cl.thickness_mean_norm)
+  
+```
 
 
 
