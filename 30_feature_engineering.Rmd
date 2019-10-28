@@ -64,7 +64,9 @@ So, we can see that there is no NA values left in Bare.nuclei_imputed Column.
 We know that ML algorithms perform and predict better when they are fed integer or factor values. In this dataset we are trying to predict class of cancer i.e. Malignant or Benign cancer. We can perform One-Hot Encoding on this column to get binary values. One-hot here means that converting the Class column to int values , ie, 1 for Benign and 2 for Malignant cancer. Make new column called Diagnosis.
 
 ```{r One-Hot-Encoding Function}
-
+one_hot_encoding <- function(df,col_name,on){
+  
+}
 ```
 
 Now, Let's apply the function and convert into factor.
