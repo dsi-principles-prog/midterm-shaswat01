@@ -64,20 +64,29 @@ So, we can see that there is no NA values left in Bare.nuclei_imputed Column.
 We know that ML algorithms perform and predict better when they are fed integer or factor values. In this dataset we are trying to predict class of cancer i.e. Malignant or Benign cancer. We can perform One-Hot Encoding on this column to get binary values. One-hot here means that converting the Class column to int values , ie, 1 for Benign and 2 for Malignant cancer. Make new column called Diagnosis.
 
 ```{r One-Hot-Encoding Function}
-one_hot_encoding <- function(df,col_name,on){
-  
+one_hot_encoding <- function(df,on){
+  {{df}} %>% 
+    mutate(Diagnosis = case_when(
+      ({{on}} == "benign") ~ 1,
+      ({{on}} == "malignant")~2
+    ))
 }
 ```
 
 Now, Let's apply the function and convert into factor.
 ```{r Applying Function to get prediction column}
-BreastCancer$Diagnosis <- 
-BreastCancer$Diagnosis <- as.factor()
+#BreastCancer$Diagnosis <- 
+#BreastCancer$Diagnosis <- as.factor()
+
+BreastCancer <- BreastCancer %>% 
+  one_hot_encoding(Class) %>% 
+  mutate(Diagnosis = as.factor(Diagnosis))
 ```
 
 Let's check the new column to be in bound 1 and 2.
 ```{r Checking if Diagnosis column in bounds 1 and 2}
-
+BreastCancer %>% 
+  assert(in_set(1,2), Diagnosis)
 ```
 
 So, we can see that above function is within specified set.
